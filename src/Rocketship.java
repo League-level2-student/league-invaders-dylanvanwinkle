@@ -17,7 +17,7 @@ public class Rocketship extends GameObject {
 		super(x, y, width, height);
 		speed = 8;
 		if (needImage) {
-		    loadImage ("rocket.png");
+			loadImage("rocket.png");
 		}
 		// TODO Auto-generated constructor stub
 	}
@@ -45,15 +45,20 @@ public class Rocketship extends GameObject {
 			x += speed;
 		}
 	}
+
 	void loadImage(String imageFile) {
-	    if (needImage) {
-	        try {
-	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-		    gotImage = true;
-	        } catch (Exception e) {
-	            
-	        }
-	        needImage = false;
-	    }
+		if (needImage) {
+			try {
+				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				gotImage = true;
+			} catch (Exception e) {
+
+			}
+			needImage = false;
+		}
+	}
+
+	public Projectile getProjectile() {
+		return new Projectile(x + width / 2, y, 10, 10);
 	}
 }

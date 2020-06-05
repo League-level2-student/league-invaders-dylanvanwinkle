@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Timer;
@@ -12,10 +14,10 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class GamePanel extends JPanel implements ActionListener, KeyListener {
+public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
 	public static BufferedImage image;
 	public static boolean needImage = true;
-	public static boolean gotImage = false;	
+	public static boolean gotImage = false;
 
 	final int MENU = 0;
 	final int GAME = 1;
@@ -23,9 +25,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int currentState = MENU;
 	Font titleFont;
 	Font subtitleFont;
-	Timer frameDraw = new Timer(END, null);
+	Timer frameDraw;
 	Rocketship rs = new Rocketship(250, 500, 50, 50);
 	ObjectManager om = new ObjectManager(rs);
+	Timer alienSpawn;
 
 	GamePanel() {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
@@ -33,7 +36,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		frameDraw = new Timer(1000 / 60, this);
 		frameDraw.start();
 		if (needImage) {
-		    loadImage ("space.png");
+			loadImage("space.png");
 		}
 	}
 
@@ -116,9 +119,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == END) {
+				alienSpawn.stop();
 				currentState = MENU;
 			} else {
 				currentState++;
+			}
+			if (currentState == GAME) {
+				startGame();
 			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_W) {
@@ -130,6 +137,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (e.getKeyCode() == KeyEvent.VK_D) {
 			rs.right = true;
 		}
+		 else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			 om.addProjectile(rs.getProjectile());
+			}
 	}
 
 	@Override
@@ -142,19 +152,54 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (e.getKeyCode() == KeyEvent.VK_A) {
 			rs.left = false;
 		} else if (e.getKeyCode() == KeyEvent.VK_D) {
-			rs.right = false;
+			rs.right = false;/
 		}
 	}
+
 	void loadImage(String imageFile) {
-	    if (needImage) {
-	        try {
-	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-		    gotImage = true;
-	        } catch (Exception e) {
-	            
-	        }
-	        needImage = false;
-	    }
+		if (needImage) {
+			try {
+				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				gotImage = true;
+			} catch (Exception e) {
+
+			}
+			needImage = false;
+		}
 	}
 
+	public void startGame() {
+		alienSpawn = new Timer(1000, om);
+		alienSpawn.start();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }

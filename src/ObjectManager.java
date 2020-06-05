@@ -18,7 +18,7 @@ public class ObjectManager implements ActionListener {
 		projectiles.add(p);
 	}
 
-	public void addalien() {
+	public void addAlien() {
 		aliens.add(new Alien(ran.nextInt(LeagueInvaders.WIDTH), 0, 50, 50));
 	}
 	public void update() {
@@ -54,6 +54,12 @@ public class ObjectManager implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-);
+		addAlien();
 	}
+public void checkCollision() {
+	for (int i = 0; i < aliens.size(); i++) {
+		
+	}
+}
+	
 }
