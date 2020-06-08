@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.Timer;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -57,6 +58,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	void updateGameState() {
 		rs.move();
 		om.update();
+		if (!rs.isActive) {
+			currentState = END;
+		}
 	}
 
 	void updateEndState() {
@@ -93,6 +97,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setFont(titleFont);
 		g.setColor(Color.YELLOW);
 		g.drawString("Game Over", 60, 100);
+		g.setFont(subtitleFont);
+		g.drawString("you defeated " + om.getScore() + " alien(s)", 60, 200);
 	}
 
 	@Override
@@ -119,6 +125,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == END) {
+				rs = new Rocketship(250, 500, 50, 50);
+				om = new ObjectManager(rs);
 				alienSpawn.stop();
 				currentState = MENU;
 			} else {
@@ -136,10 +144,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			rs.left = true;
 		} else if (e.getKeyCode() == KeyEvent.VK_D) {
 			rs.right = true;
-		}
-		 else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			 om.addProjectile(rs.getProjectile());
+		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			if (currentState == MENU) {
+				JOptionPane.showMessageDialog(null,
+						"USE w,a,s,d to move space to shoot, your goal is to defeat as many aliens as you can.");
+			} else {
+				om.addProjectile(rs.getProjectile());
 			}
+		}
 	}
 
 	@Override
@@ -152,7 +164,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		} else if (e.getKeyCode() == KeyEvent.VK_A) {
 			rs.left = false;
 		} else if (e.getKeyCode() == KeyEvent.VK_D) {
-			rs.right = false;/
+			rs.right = false;
 		}
 	}
 
@@ -169,37 +181,37 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	}
 
 	public void startGame() {
-		alienSpawn = new Timer(1000, om);
+		alienSpawn = new Timer(250, om);
 		alienSpawn.start();
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
