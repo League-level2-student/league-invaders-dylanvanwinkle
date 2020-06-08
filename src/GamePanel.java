@@ -99,6 +99,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.drawString("Game Over", 60, 100);
 		g.setFont(subtitleFont);
 		g.drawString("you defeated " + om.getScore() + " alien(s)", 60, 200);
+		g.drawString("Press enter to enter to menu", 60, 300);
 	}
 
 	@Override
